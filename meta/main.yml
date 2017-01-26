@@ -1,18 +1,18 @@
 ---
-dependencies: []
-
 galaxy_info:
-  author: geerlingguy
+  author: kadaan
   description: Mac App Store CLI installation for macOS
   company: "Midwestern Mac, LLC"
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.0
+  min_ansible_version: 2.2
   platforms:
-    - name: GenericUNIX
+    - name: MacOSX
       versions:
-        - all
-        - any
+        - 10.11
+        - 10.12
   galaxy_tags:
     - development
     - system
     - packaging
+dependencies:
+  - kadaan.homebrew
