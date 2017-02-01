@@ -1,9 +1,5 @@
 ---
 - hosts: localhost
-
-  vars:
-    mas_installed_app_ids: []
-
+  remote_user: root
   roles:
-    - geerlingguy.homebrew
     - ansible-role-mas
