@@ -40,7 +40,7 @@ Whether to run `mas upgrade`, which will upgrade all installed Mac App Store app
         mas_installed_app_ids:
           - 497799835 # Xcode (8.1)
       roles:
-        - kadaan.mas
+        - { role: kadaan.mas, mas_execute: true }
 
 ## License
 
