@@ -1,6 +1,6 @@
 # Ansible Role: Mac App Store CLI (mas)
 
-[![Build Status](https://travis-ci.com/kadaan/ansible-role-mas.svg?branch=master)](https://travis-ci.com/kadaan/ansible-role-mas)
+[![CI][badge-gh-actions]][link-gh-actions]
 
 Installs [mas](https://github.com/mas-cli/mas) on macOS, and installs macOS apps from the Mac App Store.
 
