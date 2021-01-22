@@ -4,7 +4,7 @@
   vars:
     mas_installed_app_ids: []
     mas_installed_apps: []
-    mas_upgrade_all_apps: False
+    mas_upgrade_all_apps: false
     homebrew_taps: []
 
   roles:
