@@ -3,50 +3,46 @@ sudo: required
 language: objective-c
 
 # Reference for OS X Versions:
-# https://docs.travis-ci.com/user/reference/osx/#OS-X-Version
+# https://docs.travis-ci.com/user/reference/osx/#macos-version
 matrix:
   include:
-    # High Sierra (10.13)
+    # Catalina (10.15)
     - os: osx
-      osx_image: xcode10.1
+      osx_image: xcode11.4
+    # Mojave (10.14)
+    - os: osx
+      osx_image: xcode11.3
 
 before_install:
   # Install role dependencies. Do this here, using newer OpenSSL version and a
   # virtualenv because older macOS versions will fail with the system version of
   # OpenSSL and Python if done later.
   - brew upgrade openssl || brew install openssl || true
-  - brew upgrade python2 || brew install python2 || true
-  - sudo -H pip install -U virtualenv
-  - virtualenv --python=/usr/local/bin/python2.7 .venv
+  - brew upgrade python3 || brew install python3 || true
+  - sudo -H pip3 install -U virtualenv
+  - virtualenv --python=/usr/local/bin/python3 .venv
   - source .venv/bin/activate
   - pip install ansible
   - python -c "import ssl; print(ssl.OPENSSL_VERSION)"
   - ansible-galaxy install -r tests/requirements.yml -p ./roles
   - deactivate
 
-  # Uninstall existing brew installation.
-  - curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall
-  - chmod +x ./uninstall
-  - ./uninstall --force
+  # Uninstall existing Homebrew installation.
+  - curl -sLO https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
+  - chmod +x ./uninstall.sh
+  - ./uninstall.sh --force
   - sudo rm -rf /usr/local/Homebrew
   - sudo rm -rf /usr/local/Caskroom
   - sudo rm -rf /usr/local/bin/brew
 
+  # Install Python 3.
+  - curl "https://www.python.org/ftp/python/3.7.9/python-3.7.9-macosx10.9.pkg" -o "python3.pkg"
+  - sudo installer -pkg python3.pkg -target /
+  - export PATH=/Library/Frameworks/Python.framework/Versions/3.7/bin:$PATH
+
 install:
-  # Get macOS version string.
-  - macos_version=$(sw_vers -productVersion)
-
-  # Install pip (macOS version dependent).
-  - |
-    if [[ "$macos_version" == 10.13.* ]]; then
-      sudo easy_install pip
-    else
-      # See: https://stackoverflow.com/a/49748494/100134
-      curl https://bootstrap.pypa.io/get-pip.py | sudo python
-    fi
-
   # Install Ansible.
-  - sudo -H pip install ansible
+  - sudo -H pip3 install ansible
 
   # Add ansible.cfg to pick up roles path.
   - "{ echo '[defaults]'; echo 'roles_path = ../:../roles:./roles'; } >> ansible.cfg"
