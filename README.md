@@ -49,3 +49,6 @@ MIT / BSD
 ## Author Information
 
 [kadaan/ansible-role-homebrew](https://github.com/kadaan/ansible-role-homebrew), 2017 (originally inspired by [Jeff Geerling](https://www.jeffgeerling.com/), 2016).
+
+[badge-gh-actions]: https://github.com/kadaan/ansible-role-mas/workflows/CI/badge.svg?event=push
+[link-gh-actions]: https://github.com/kadaan/ansible-role-mas/actions?query=workflow%3ACI
