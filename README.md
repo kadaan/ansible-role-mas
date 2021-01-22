@@ -6,6 +6,7 @@ Installs [mas](https://github.com/mas-cli/mas) on macOS, and installs macOS apps
 
 ## Requirements
 
+  - **Homebrew**: Requires `homebrew` already installed (you can use `geerlingguy.homebrew` to install it on your Mac).
   - **Mac App Store account**: You can either sign into the Mac App Store via the GUI before running this role, or you can set the `mas_email` and `mas_password` prior to running the role. For security reasons, if you're going to use this role to sign in, you should use `vars_prompt` for at least the password; don't store unencrypted passwords with your playbooks!
 
 ## Role Variables
@@ -21,9 +22,14 @@ If setting these variables statically (e.g. in an included vars file), you shoul
 
 If you leave both blank, and don't prompt for them, the role assumes you've already signed in via other means (e.g. via GUI or `mas signin [email]`), and will not attempt to sign in again.
 
-    mas_installed_app_ids: []
+    mas_signin_dialog: false
 
-A list of apps to ensure are installed on the computer. You can get IDs for all your existing installed apps with `mas list`, and you can search for IDs with `mas search [App Name]`.
+Fallback to the built-in Mac App Store dialog to complete sign in. If set to yes, you must specify the aforementioned `mas_email` variable which will be autofilled in the dialog and prompt you to enter your password, followed by the 2FA authorization code if enabled on the account.
+
+    mas_installed_apps:
+      - { id: 497799835, name: "Xcode (8.1)" }
+
+A list of apps to ensure are installed on the computer. You can get IDs for all your existing installed apps with `mas list`, and you can search for IDs with `mas search [App Name]`. The `name` attribute is not authoritative and only used to provide better information in the playbook output.
 
     mas_upgrade_all_apps: false
 
@@ -31,16 +37,17 @@ Whether to run `mas upgrade`, which will upgrade all installed Mac App Store app
 
 ## Dependencies
 
-  - [kadaan.homebrew](https://galaxy.ansible.com/kadaan/homebrew/)
+  - (Soft dependency) `kadaan.homebrew`
 
 ## Example Playbook
 
     - hosts: localhost
       vars:
-        mas_installed_app_ids:
-          - 497799835 # Xcode (8.1)
+        mas_installed_apps:
+          - { id: 497799835, name: "Xcode (8.1)" }
       roles:
-        - { role: kadaan.mas, mas_execute: true }
+        - kadaan.homebrew
+        - kadaan.mas
 
 ## License
 
